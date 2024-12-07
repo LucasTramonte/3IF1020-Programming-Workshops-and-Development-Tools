@@ -14,26 +14,58 @@
 
 class Number {
 public:
-    Number( unsigned long l ) { /* TODO */ }
-    ~Number() { /* TODO */ }
- 
-    void print( std::ostream & out ) const { /* TODO */ }
+    Number( unsigned long l );
+    Number(const Number& other);  // Constructeur de copie
+    Number& operator=(Number other);    // Affectation par copie avec idiome du swap
+    ~Number(); 
+
+    // Swap (échanger les valeurs de deux objets Number)
+    friend void swap(Number& first, Number& second) {
+        std::swap(first.first_, second.first_);
+    }
+    
+    void print( std::ostream & out ) const; 
+    void add( unsigned int i );
+    void multiply( unsigned int i );
 
 private:
     using DigitType = unsigned int;
-    // Un seul chiffre décimal par maillon : l'objectif ici n'est pas la performance
-    static const DigitType number_base{ 10u };
-    struct Digit {
+    static const DigitType number_base{ 10u }; // Base 10 pour la représentation des chiffres
+
+    // Classe interne représentant un chiffre
+    class Digit {
+    public:
+        using Digit_type = DigitType;
+
+        Digit( DigitType digit, Digit * next ); 
+        Digit( unsigned long l ); 
+        ~Digit();
+        Digit( const Digit & other ); 
+
+        // Swap (échanger les valeurs de deux objets)
+        friend void swap(Digit& first, Digit& second) {
+            std::swap(first.digit_, second.digit_);
+            std::swap(first.next_, second.next_);
+        };
+        void ajouterChiffre( unsigned int i );
+        void multiplierChiffres( unsigned int i );
+        void print( std::ostream & out ) const;
+
+    private:
         DigitType digit_;
         Digit * next_;
     };
+
     Digit * first_;
+
 };
 
-inline std::ostream & operator<<( std::ostream & out, const Number & n )
-{
-    n.print( out );
+inline std::ostream& operator<<(std::ostream& out, const Number& n) {
+    n.print(out);
     return out;
 }
 
-#endif
+Number factorial( unsigned int n );
+
+
+#endif 

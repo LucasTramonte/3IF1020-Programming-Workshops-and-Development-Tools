@@ -11,6 +11,15 @@
 
 #include "Expression.hpp"
 
+int Expression::instances_creées_ = 0;
+int Expression::instances_détruites_ = 0;
 
+int Expression::nombreInstancesCreées() {
+    return instances_creées_;
+}
+
+int Expression::nombreInstancesDétruites() {
+    return instances_détruites_;
+}
 
 

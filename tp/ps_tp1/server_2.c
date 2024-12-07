@@ -8,7 +8,6 @@
 
 // Commencer par recopier ici le code de server_1.c
 
-
 // For printf()
 #include <stdio.h>
 // For rand(), srand(), sleep(), EXIT_SUCCESS
@@ -115,4 +114,3 @@ int main() {
 
         La fonction de fin est toujours activée sauf en cas d'utilisation de kill -9.
 */
-

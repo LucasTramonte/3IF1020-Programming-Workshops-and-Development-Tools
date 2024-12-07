@@ -28,6 +28,18 @@ public:
         // - Déposer dans box_ nb_messages_ entiers positifs avec attente
         //   aléatoire avant chaque dépôt.
         // - Afficher des messages entre chaque étape pour suivre l'avancement.
+
+        for (unsigned i = 0; i < nb_messages_; ++i) {
+            int message = i;  // Génération d'un message 
+            box_.put(message);  // Dépôt du message dans la boîte
+        
+            osyncstream{ std::cout } << "Producteur " << name_ 
+                                 << " a déposé le message: " << message << "\n";
+        
+            // Attente aléatoire avant de produire le prochain message
+            using milliseconds = std::chrono::duration<int, std::milli>;
+            std::this_thread::sleep_for(milliseconds{ random_engine_() });
+       }
     }
 };
  

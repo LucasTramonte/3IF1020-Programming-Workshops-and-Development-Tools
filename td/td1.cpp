@@ -17,16 +17,16 @@
 // Définir une fonction qui calcule et retourne la valeur de 𝑓 en 𝑥
 double sin_x_plus_cos_sqrt2_times_x( double x )
 {
-    // TODO
-    return 0;
+    return std::sin(x) + std::cos(std::sqrt(2) * x);
 }
 
 // Définir une fonction test_11() qui appelle la précédente avec 1 puis avec -4.5 comme
 // argument, et qui affiche les résultats retournés.
 void test_11()
 {
-    // Remove TODO when done
-    std::cout << "test_11: TODO\n";
+    std::cout << "test_11:\n";
+    std::cout << "Résultat pour x = 1 : " << sin_x_plus_cos_sqrt2_times_x(1) << std::endl;
+    std::cout << "Résultat pour x = -4.5 : " << sin_x_plus_cos_sqrt2_times_x(-4.5) << std::endl;
 }
 
 // Définir une fonction test_12() qui demande une valeur à l'utilisateur, appelle la
@@ -34,7 +34,13 @@ void test_11()
 // comme argument et affiche le résultat retourné. 
 void test_12()
 {
-    std::cout << "test_12: TODO\n";
+
+    std::cout << "test_12:\n";
+    double user_input;
+    std::cout << "Veuillez entrer une valeur: ";
+    std::cin >> user_input;
+    double result = sin_x_plus_cos_sqrt2_times_x(user_input);
+    std::cout << "Le résultat est: " << result << std::endl;
 }
 
 // Définir une fonction test_21() qui demande une valeur à l'utilisateur, et affiche le
@@ -43,20 +49,32 @@ void test_12()
 // Vous utiliserez une boucle for avec une variable de boucle commençant à 0.
 void test_21()
 {
-    std::cout << "test_21: TODO\n";
+    std::cout << "test_21: \n";
+    double x;
+    std::cout << "Entrez une valeur de départ : ";
+    std::cin >> x;
+
+    for (int i = 0; i < 10; ++i)
+    {
+        std::cout << "x = " << x + i << " : " << sin_x_plus_cos_sqrt2_times_x(x + i) << std::endl;
+    }
 }
 
 // Définir une fonction qui affiche le résultat de la fonction sin_x_plus_cos_sqrt2_times_x()
 // pour toutes les valeurs entre begin et end avec un pas de step. 
 void print_sin_x_plus_cos_sqrt2_times_x( double begin, double end, double step )
 {
-    // TODO
+    for (double x = begin; x <= end; x += step)
+    {
+        std::cout << "x = " << x << " : " << sin_x_plus_cos_sqrt2_times_x(x) << std::endl;
+    }
 }
 
 // Définir une fonction test_22() qui appelle la précédente avec -10, 10 et 2 comme arguments
 void test_22()
 {
-    std::cout << "test_22: TODO\n";
+    std::cout << "test_22:\n";
+    print_sin_x_plus_cos_sqrt2_times_x(-10, 10, 2);
 }
 
 // Définir une fonction test_23() qui demande à l'utilisateur une borne basse, une borne
@@ -70,13 +88,33 @@ void test_22()
 void test_23()
 {
     std::cout << "test_23: TODO\n";
+    double begin, end;
+    int n;
+
+    // Demander la borne basse
+    std::cout << "Entrez la borne basse : ";
+    std::cin >> begin;
+
+    // Demander la borne haute avec vérification
+    do {
+        std::cout << "Entrez la borne haute (doit être supérieure à la borne basse) : ";
+        std::cin >> end;
+    } while (end <= begin);
+
+    // Demander le nombre de valeurs avec vérification
+    do {
+        std::cout << "Entrez le nombre de valeurs à afficher (au moins 2) : ";
+        std::cin >> n;
+    } while (n < 2);
+
+    double step = (end - begin) / (n - 1);
+    print_sin_x_plus_cos_sqrt2_times_x(begin, end, step);
 }
 
 // Définir une fonction qui retourne la valeur estimée de la dérivée de la fonction func en x
 double compute_derivative( std::function< double( double ) > func, double x, double epsilon )
 {
-    // TODO
-    return 0;
+    return (func(x + epsilon) - func(x)) / epsilon;
 }
 
 // Définir une fonction test_31() qui affiche l'estimation de la dérivée de
@@ -84,7 +122,12 @@ double compute_derivative( std::function< double( double ) > func, double x, dou
 // valeur d'epsilon égale à 10-5. 
 void test_31()
 {
-    std::cout << "test_31: TODO\n";
+    std::cout << "test_31: \n";
+    double epsilon = 1e-5;
+    for (double x = -4.6; x <= -4.5; x += 0.01)
+    {
+        std::cout << "Dérivée en x = " << x << " : " << compute_derivative(sin_x_plus_cos_sqrt2_times_x, x, epsilon) << std::endl;
+    }
 }
 
 // Définir une fonction qui retourne un nombre compris dans l'intervalle [begin, end] pour
@@ -95,15 +138,29 @@ void test_31()
 // Vous procéderez par dichotomie.
 double find_zero( std::function< double( double ) > func, double begin, double end, double precision )
 {
-    // TODO
-    return 0;
+    if (func(begin) * func(end) > 0)
+        return 0; // Précondition non respectée
+
+    while ((end - begin) > precision)
+    {
+        double mid = (begin + end) / 2;
+        if (func(mid) == 0.0)
+            return mid;
+        else if (func(begin) * func(mid) < 0)
+            end = mid;
+        else
+            begin = mid;
+    }
+    return (begin + end) / 2;
 }
 
 // Définir une fonction test_32() qui cherche un zéro de la fonction sin_x_plus_cos_sqrt2_times_x()
 // dans l'intervalle [-2, 0] avec une précision de 10-5
 void test_32()
 {
-    std::cout << "test_32: TODO\n";
+    std::cout << "test_32: \n";
+    double zero = find_zero(sin_x_plus_cos_sqrt2_times_x, -2, 0, 1e-5);
+    std::cout << "Zéro trouvé : " << zero << std::endl;
 }
 
 // Définir une fonction qui cherche dans chaque intervalle de largeur width (de la forme
@@ -115,8 +172,16 @@ void test_32()
 int find_all_zeros( std::function< double( double ) > func, double begin, double end, double width,
                     double precision, double results[], double max_number_of_results )
 {
-    // TODO
-    return 0;
+    int count = 0;
+    for (double x = begin; x < end && count < max_number_of_results; x += width)
+    {
+        double zero = find_zero(func, x, x + width, precision);
+        if (zero != 0) // Si un zéro a été trouvé
+        {
+            results[count++] = zero;
+        }
+    }
+    return count;
 }
 
 // Définir une fonction test_41() qui cherche les zéros de la fonction
@@ -124,7 +189,15 @@ int find_all_zeros( std::function< double( double ) > func, double begin, double
 // une précision de 10-5 et un maximum de 10 zéros retournés. 
 void test_41()
 {
-    std::cout << "test_41: TODO\n";
+    std::cout << "test_41:\n";
+    double results[10];
+    int count = find_all_zeros(sin_x_plus_cos_sqrt2_times_x, -10, 10, 0.5, 1e-5, results, 10);
+    std::cout << "Zéros trouvés (" << count << ") : ";
+    for (int i = 0; i < count; ++i)
+    {
+        std::cout << results[i] << " ";
+    }
+    std::cout << std::endl;
 }
 
 // Définir une fonction qui cherche dans chaque intervalle de largeur width (de la forme
@@ -137,8 +210,16 @@ void test_41()
 int find_all_extrema( std::function< double( double ) > func, double begin, double end, double width,
                       double precision, double epsilon, double results[], double max_number_of_results )
 {
-    // TODO
-    return 0;
+    int count = 0;
+    for (double x = begin; x < end && count < max_number_of_results; x += width)
+    {
+        double derivative = compute_derivative(func, x, epsilon);
+        if (std::abs(derivative) < precision)
+        {
+            results[count++] = x;
+        }
+    }
+    return count;
 }
 
 // Définir une fonction test_42() qui cherche les extrema de la fonction sin_x_plus_cos_sqrt2_times_x()
@@ -146,7 +227,25 @@ int find_all_extrema( std::function< double( double ) > func, double begin, doub
 // estimée en utilisant 10-5 pour epsilon et un maximum de 10 extrema retournés. 
 void test_42()
 {
-    std::cout << "test_42: TODO\n";
+    std::cout << "test_42:\n";
+    
+    double begin = -10.0;
+    double end = 10.0;
+    double width = 0.5;
+    double precision = 1e-5;
+    double epsilon = 1e-5;
+    double results[10]; 
+    int count = find_all_extrema(sin_x_plus_cos_sqrt2_times_x, begin, end, width, precision, epsilon, results, 10);
+
+    if (count > 0) {
+        std::cout << "Extrema trouvés (" << count << "): ";
+        for (int i = 0; i < count; i++) {
+            std::cout << results[i] << " ";
+        }
+        std::cout << "\n";
+    } else {
+        std::cout << "Aucun extrême trouvé dans l'intervalle spécifié.\n"; 
+    }
 }
 
 int main()
@@ -161,3 +260,4 @@ int main()
     test_41();
     test_42();
 }
+
